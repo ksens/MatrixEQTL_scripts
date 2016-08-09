@@ -30,7 +30,7 @@ library(MatrixEQTL)
 base.dir = find.package('MatrixEQTL');
 pathtofile = paste(base.dir, '/demo/sample.all.r', sep = "")
 # source(pathtofile)
-source('script1-gene-snp.R') 
+source('/home/scidb/ksen/downloads/MatrixEQTL_scripts/script1-gene-snp.R') 
 ### The above demo shows that Snp_05 and Gene_03 have highest value for statistic
 
 # Genotype file name
@@ -41,8 +41,8 @@ snptable = read.table(SNP_file_name, row.names = 1, header = TRUE)
 expression_file_name = paste(base.dir, "/data/GE.txt", sep="");
 genetable = read.table(expression_file_name, row.names = 1, header = TRUE)
 
-snpnum = 11
-genenum = 6
+snpnum = 5
+genenum = 3
 s = as.numeric(snptable[sprintf("Snp_%02d", snpnum), ])
 g = as.numeric(genetable[sprintf("Gene_%02d", genenum), ])
 calcstat(s, g)
