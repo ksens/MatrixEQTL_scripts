@@ -41,8 +41,8 @@ snptable = read.table(SNP_file_name, row.names = 1, header = TRUE)
 expression_file_name = paste(base.dir, "/data/GE.txt", sep="");
 genetable = read.table(expression_file_name, row.names = 1, header = TRUE)
 
-snpnum = 5
-genenum = 3
+snpnum = 11
+genenum = 6
 s = as.numeric(snptable[sprintf("Snp_%02d", snpnum), ])
 g = as.numeric(genetable[sprintf("Gene_%02d", genenum), ])
 calcstat(s, g)
