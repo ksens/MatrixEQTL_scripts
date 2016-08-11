@@ -35,5 +35,9 @@ tstat = transform(tcor,
                   tstat=sprintf("sqrt(%d - 2) * m / sqrt(1- (m*m))", countsnp),
                   Gene_ = "geneid+1",
                   Snp_="snpid+1")
-result = project(unpack(tstat), c("Snp_", "Gene_", "tstat"))
+tstat = transform(tstat,
+                  tstatabs = "abs(tstat)")
+result = unpack(tstat)
+result = sort(result, decreasing = TRUE, attributes = "tstatabs")
+result = project(result, c("Snp_", "Gene_", "tstat"))
 print(result[])
