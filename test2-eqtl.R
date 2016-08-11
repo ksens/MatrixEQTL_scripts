@@ -30,7 +30,7 @@ tstat = qt(p=pvOutputThreshold/2, df=countsnp-2)
 #   r = t/sqrt( (n-2) + t^2)
 r = tstat / sqrt((countgene-2) + tstat^2)
 
-tcor = scidb(sprintf("dmetric(%s, transpose(%s), 'metric=pearson', 'thresholdMin=%f')", Exp@name, Snp@name, abs(r)))
+tcor = scidb(sprintf("dmetric(%s, transpose(%s), 'metric=pearson', 'thresholdMin=%f', 'thresholdMax=%f', 'liesBetweenMinMax=0')", Exp@name, Snp@name, -abs(r), abs(r)))
 tstat = transform(tcor, 
                   tstat=sprintf("sqrt(%d - 2) * m / sqrt(1- (m*m))", countsnp),
                   Gene_ = "geneid+1",

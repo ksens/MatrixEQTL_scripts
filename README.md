@@ -21,12 +21,15 @@ source('/home/scidb/ksen/downloads/MatrixEQTL_scripts/script1-gene-snp.R')
 
 ```
 source('/home/scidb/ksen/downloads/MatrixEQTL_scripts/test2-eqtl.R')
-#   i Snp_ Gene_    tstat
-# 1 0   14     1 2.171670
-# 2 1   13     4 1.832381
-# 3 2   15     4 1.895018
-# 4 3   13     5 1.830640
-# 5 4   15     5 1.900798
-# 6 5    5    10 1.809930
-# 7 6    7    10 1.855747
+   n Snp_ Gene_     tstat
+1  0   11     6 -3.007106
+2  1    5     6 -2.234872
+3  2    7     1 -2.206412
+4  3   14     1  2.171670
+5  4   15     5  1.900798
+6  5   15     4  1.895018
+7  6    7    10  1.855747
+8  7   13     4  1.832381
+9  8   13     5  1.830640
+10 9    5    10  1.809930
 ```
