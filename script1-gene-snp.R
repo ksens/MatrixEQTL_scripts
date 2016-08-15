@@ -59,13 +59,13 @@ gene$LoadFile(expression_file_name);
 ## Load covariates
 
 cvrt = SlicedData$new();
-# cvrt$fileDelimiter = "\t";      # the TAB character
-# cvrt$fileOmitCharacters = "NA"; # denote missing values;
-# cvrt$fileSkipRows = 1;          # one row of column labels
-# cvrt$fileSkipColumns = 1;       # one column of row labels
-# if(length(covariates_file_name)>0) {
-#   cvrt$LoadFile(covariates_file_name);
-# }
+cvrt$fileDelimiter = "\t";      # the TAB character
+cvrt$fileOmitCharacters = "NA"; # denote missing values;
+cvrt$fileSkipRows = 1;          # one row of column labels
+cvrt$fileSkipColumns = 1;       # one column of row labels
+if(length(covariates_file_name)>0) {
+  cvrt$LoadFile(covariates_file_name);
+}
 
 ## Run the analysis
 
