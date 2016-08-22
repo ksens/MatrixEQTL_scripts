@@ -7,7 +7,7 @@ SNPArray="eqtl_SNP"
 EXPArray="eqtl_GENEXP"
 
 # p-value threshold: Only associations significant at this level will be saved
-pvOutputThreshold = 1e-1;
+pvOutputThreshold = 1e-5;
 
 ###### Basics
 Snp=scidb(SNPArray)

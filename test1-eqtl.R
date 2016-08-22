@@ -22,7 +22,7 @@ calcstat  = function(s, g, N) {
 }
 
 cat("##################################\n")
-cat("Now let us run the analysis without covariates i.e. the simplest case\n")
+cat("First let us run the analysis without covariates i.e. the simplest case\n")
 cat("(Sec. 3.1 of Shabalin 2012) --  results using the MatrixEQTL package follow\n")
 cat("##################################\n")
 
@@ -56,7 +56,7 @@ covariates_file_name = paste(base.dir, "/data/Covariates.txt", sep="");
 output_file_name = tempfile();
 
 # Only associations significant at this level will be saved
-pvOutputThreshold = 1e-1;
+pvOutputThreshold = 2e-2;
 
 # Error covariance matrix
 # Set to numeric() for identity.
@@ -102,7 +102,8 @@ me = Matrix_eQTL_engine(
 show(me$all$eqtls)
 
 cat("-------------------------------\n")
-cat("Let's try to replicate this via R only\n")
+cat("Let's try to replicate this via R only (match t-statistic values)\n")
+cat("The above demo shows that Snp_11 and Gene_06 have highest value for statistic in this case\n")
 cat("-------------------------------\n")
 
 # Genotype file name
@@ -161,14 +162,13 @@ show(me$all$eqtls)
 ### The above demo shows that Snp_11 and Gene_06 have highest value for statistic in this case
 
 cat("-------------------------------\n")
-cat("Let's try to replicate this via R only\n")
+cat("Let's try to replicate this via R only (match t-statistic values)\n")
+cat("The above demo shows that Snp_11 and Gene_06 have highest value for statistic in this case\n")
 cat("-------------------------------\n")
 
 # Covariate file name
-covariates_file_name = paste(base.dir, "/data/Covariates.txt", sep="");
 cvrttable = read.table(covariates_file_name, row.names = 1, header = TRUE)
 
-# gender = as.numeric(cvrttable["gender", ])
 age = as.numeric(cvrttable["age", ])
 
 snpnum = 11
@@ -199,6 +199,7 @@ cat("Use R inbuilt function\n")
 cat("-------------------------------\n")
 print(summary(lm(g ~ s + age))$coefficients[2,c("Estimate","t value","Pr(>|t|)")])
 #############################
+
 cat("##################################\n")
 cat("Now let us work with 2 covariates\n")
 cat("##################################\n")
@@ -232,7 +233,8 @@ unlink(output_file_name);
 show(me$all$eqtls)
 
 cat("-------------------------------\n")
-cat("Let's try to replicate this via R only\n")
+cat("Let's try to replicate this via R only (match t-statistic values)\n")
+cat("The above demo shows that Snp_05 and Gene_03 have highest value for statistic in this case\n")
 cat("-------------------------------\n")
 
 snpnum = 5
@@ -250,35 +252,47 @@ s1=s1 / sqrt(sum(s1^2))
 g1=g-mean(g)
 g1=g1 / sqrt(sum(g1^2))
 
-age1=age-mean(age)
-age1=age1 / sqrt(sum(age1^2))
+b = svd(cbind(age, gender, 1))$u
 
-gender1=gender-mean(gender)
-gender1=gender1 / sqrt(sum(gender1^2))
+g2 = g - crossprod(g, b[,1])*b[,1]
+g2 = g2 - crossprod(g2, b[,2])*b[,2]
+g2 = g2 - crossprod(g2, b[,3])*b[,3]
 
-# Remove age covariate first
-s2=s1 - (s1 %*% age1 * age1)
-g2=g1 - (g1 %*% age1 * age1)
+s2 = s - crossprod(s, b[,1])*b[,1]
+s2 = s2 - crossprod(s2, b[,2])*b[,2]
+s2 = s2 - crossprod(s2, b[,3])*b[,3]
 
-# Now center and remove gender covariate
-s3=s2-mean(s2)
-s3=s3 / sqrt(sum(s3^2))
-
-g3=g2-mean(g2)
-g3=g3 / sqrt(sum(g3^2))
-
-
-s4=s3 - (s3 %*% gender1 * gender1)
-g4=g3 - (g3 %*% gender1 * gender1)
+# age1=age-mean(age)
+# age1=age1 / sqrt(sum(age1^2))
+# 
+# gender1=gender-mean(gender)
+# gender1=gender1 / sqrt(sum(gender1^2))
+# 
+# # Remove age covariate first
+# s2=s1 - (s1 %*% age1 * age1)
+# g2=g1 - (g1 %*% age1 * age1)
+# 
+# # Now center and remove gender covariate
+# s3=s2-mean(s2)
+# s3=s3 / sqrt(sum(s3^2))
+# 
+# g3=g2-mean(g2)
+# g3=g3 / sqrt(sum(g3^2))
+# 
+# 
+# s4=s3 - (s3 %*% gender1 * gender1)
+# g4=g3 - (g3 %*% gender1 * gender1)
 
 cat("-------------------------------\n")
 cat("Use my custom function\n")
 cat("-------------------------------\n")
-calcstat(s4, g4, N = length(s)-2)
+calcstat(s2, g2, N = length(s)-2)
 
 cat("-------------------------------\n")
 cat("Use R inbuilt function\n")
 cat("-------------------------------\n")
 print(summary(lm(g ~ s + age + gender))$coefficients[2,c("Estimate","t value","Pr(>|t|)")])
+
+
 
 
